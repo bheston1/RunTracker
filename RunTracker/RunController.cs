@@ -10,12 +10,12 @@ namespace RunTracker
 {
     public static class RunController
     {
-        public static void AddSession(DateTime date, DateTime startTime, DateTime endTime, double miles)
+        public static void AddSession(DateTime startTime, DateTime endTime, double miles)
         {
             using (var connection = new SqliteConnection(Database.ConnectionString))
             {
-                var sql = "INSERT INTO RunSessions (Date, StartTime, EndTime, Miles) VALUES (@Date, @StartTime, @EndTime, @Miles)";
-                connection.Execute(sql, new { Date = date.ToString(), StartTime = startTime.ToString(), EndTime = endTime.ToString(), Miles = miles });
+                var sql = "INSERT INTO RunSessions (StartTime, EndTime, Miles) VALUES (@StartTime, @EndTime, @Miles)";
+                connection.Execute(sql, new { StartTime = startTime.ToString(), EndTime = endTime.ToString(), Miles = miles });
             }
         }
 

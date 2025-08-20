@@ -9,9 +9,10 @@ namespace RunTracker
 {
     public static class UserInput
     {
-        public static DateTime GetDateTime(string prompt, string format)
+        public static DateTime GetDateTime(string prompt)
         {
             DateTime dateTime;
+            var format = "M/d/yyyy h:m tt";
 
             while (true)
             {

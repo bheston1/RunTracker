@@ -52,11 +52,10 @@ namespace RunTracker
 
         private static void AddRecord()
         {
-            var date = UserInput.GetDateTime("Enter session date (m/d/yyyy): ", "M/d/yyyy");
-            var start = UserInput.GetDateTime("Enter start time (h:mm am/pm): ", "h:m tt");
-            var end = UserInput.GetDateTime("Enter end time (h:mm am/pm): ", "h:m tt");
+            var start = UserInput.GetDateTime("Enter session start date/time (format: [m/d/yyyy h:mm am/pm]): ");
+            var end = UserInput.GetDateTime("Enter session end date/time (format: [m/d/yyyy h:mm am/pm]): ");
             var miles = AnsiConsole.Ask<double>("Distance (in miles): ");
-            RunController.AddSession(date, start, end, miles);
+            RunController.AddSession(start, end, miles);
             AnsiConsole.Markup("\n[green]Record added[/]\nPress [blue]<enter>[/]");
             Console.ReadLine();
         }
@@ -68,6 +67,9 @@ namespace RunTracker
             if (!runSessions.Any())
             {
                 AnsiConsole.Markup("[yellow]No records found[/]");
+                AnsiConsole.Markup("\n\nPress [blue]<enter>[/]");
+                Console.ReadLine();
+                return;
             }
             else
             {
