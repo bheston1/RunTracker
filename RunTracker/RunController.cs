@@ -45,5 +45,18 @@ namespace RunTracker
                 connection.Execute(sql, new { Id = id });
             }
         }
+
+        public static bool SessionExists(int id)
+        {
+            bool exists;
+
+            using (var connection = new SqliteConnection(Database.ConnectionString))
+            {
+                var sql = "SELECT 1 FROM RunSessions WHERE Id = @Id";
+                exists = connection.ExecuteScalar<bool>(sql, new { Id = id });
+            }
+
+            return exists;
+        }
     }
 }

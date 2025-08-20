@@ -33,15 +33,15 @@ namespace RunTracker
                         break;
 
                     case "View all records":
-                        ViewRecords();
+                        ViewRecords(update: false, delete: false);
                         break;
 
                     case "Update existing record":
-
+                        ViewRecords(update: true, delete: false);
                         break;
 
                     case "Delete a record":
-
+                        ViewRecords(update: false, delete: true);
                         break;
 
                     case "Close app":
@@ -61,7 +61,7 @@ namespace RunTracker
             Console.ReadLine();
         }
 
-        private static void ViewRecords()
+        private static void ViewRecords(bool update, bool delete)
         {
             var runSessions = RunController.GetSessions();
 
@@ -74,7 +74,48 @@ namespace RunTracker
                 TableVisualizer.DrawTable(runSessions);
             }
 
-            AnsiConsole.Markup("\n\nPress [blue]<enter>[/]");
+            switch (update, delete)
+            {
+                case (false, false):
+                    AnsiConsole.Markup("\n\nPress [blue]<enter>[/]");
+                    Console.ReadLine();
+                    break;
+
+                case (true, false):
+                    UpdateRecord();
+                    break;
+
+                case (false, true):
+                    DeleteRecord();
+                    break;
+            }
+        }
+
+        private static void UpdateRecord()
+        {
+
+        }
+
+        private static void DeleteRecord()
+        {
+            int input;
+
+            while (true)
+            {
+                input = AnsiConsole.Ask<int>("Enter Id of record to delete: ");
+
+                if (!RunController.SessionExists(input))
+                {
+                    AnsiConsole.Markup($"\n[yellow]Record #{input} does not exist[/]\n");
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            RunController.DeleteSession(input);
+            AnsiConsole.Markup($"\n[red]Record #{input} deleted[/]\nPress [blue]<enter>[/]");
             Console.ReadLine();
         }
     }
