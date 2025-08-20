@@ -15,13 +15,7 @@ namespace RunTracker
             using (var connection = new SqliteConnection(Database.ConnectionString))
             {
                 var sql = "INSERT INTO RunSessions (Date, StartTime, EndTime, Miles) VALUES (@Date, @StartTime, @EndTime, @Miles)";
-                connection.Execute(sql, new
-                {
-                    Date = date.ToString(),
-                    StartTime = startTime.ToString(),
-                    EndTime = endTime.ToString(),
-                    Miles = miles
-                });
+                connection.Execute(sql, new { Date = date.ToString(), StartTime = startTime.ToString(), EndTime = endTime.ToString(), Miles = miles });
             }
         }
 
