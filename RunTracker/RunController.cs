@@ -29,9 +29,37 @@ namespace RunTracker
         {
             var runSessions = new List<RunSession>();
 
-            // do shit
+            using (var connection = new SqliteConnection(Database.ConnectionString))
+            {
+                var sql = "SELECT * FROM RunSessions";
+                var reader = connection.ExecuteReader(sql);
+                while (reader.Read())
+                {
+                    runSessions.Add(new RunSession
+                    {
+                        Date = DateTime.Parse(reader.GetString(0)),
+                        StartTime = DateTime.Parse(reader.GetString(1)),
+                        EndTime = DateTime.Parse(reader.GetString(2)),
+                        Miles = reader.GetDouble(3)
+                    });
+                }
+            }
 
-            return runSessions;
+                return runSessions;
+        }
+
+        public static void UpdateSession(DateTime newDate, DateTime newStartTime, DateTime newEndTime, double newMiles)
+        {
+
+        }
+
+        public static void DeleteSession(int id)
+        {
+            using (var connection = new SqliteConnection(Database.ConnectionString))
+            {
+                var sql = "DELETE FROM RunSessions WHERE Id = @Id";
+                connection.Execute(sql, new { Id = id });
+            }
         }
     }
 }
