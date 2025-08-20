@@ -17,9 +17,9 @@ namespace RunTracker
                 var sql = "INSERT INTO RunSessions (Date, StartTime, EndTime, Miles) VALUES (@Date, @StartTime, @EndTime, @Miles)";
                 connection.Execute(sql, new
                 {
-                    Date = date.ToString("M/d/yyyy"),
-                    StartTime = startTime.ToString("h:m tt"),
-                    EndTime = endTime.ToString("h:m tt"),
+                    Date = date.ToString(),
+                    StartTime = startTime.ToString(),
+                    EndTime = endTime.ToString(),
                     Miles = miles
                 });
             }
@@ -32,20 +32,10 @@ namespace RunTracker
             using (var connection = new SqliteConnection(Database.ConnectionString))
             {
                 var sql = "SELECT * FROM RunSessions";
-                var reader = connection.ExecuteReader(sql);
-                while (reader.Read())
-                {
-                    runSessions.Add(new RunSession
-                    {
-                        Date = DateTime.Parse(reader.GetString(0)),
-                        StartTime = DateTime.Parse(reader.GetString(1)),
-                        EndTime = DateTime.Parse(reader.GetString(2)),
-                        Miles = reader.GetDouble(3)
-                    });
-                }
+                runSessions = connection.Query<RunSession>(sql).ToList();
             }
 
-                return runSessions;
+            return runSessions;
         }
 
         public static void UpdateSession(DateTime newDate, DateTime newStartTime, DateTime newEndTime, double newMiles)
