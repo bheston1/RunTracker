@@ -16,7 +16,7 @@ namespace RunTracker
         public static void Initialize()
         {
             using SqliteConnection connection = new SqliteConnection(ConnectionString);
-            var sql = "CREATE TABLE IF NOT EXISTS RunSessions (Id INTEGER PRIMARY KEY AUTOINCREMENT, Date TEXT, StartTime TEXT, EndTime TEXT, Miles DOUBLE)";
+            var sql = "CREATE TABLE IF NOT EXISTS RunSessions (Id INTEGER PRIMARY KEY AUTOINCREMENT, Date TEXT, StartTime TEXT, EndTime TEXT, Miles REAL)";
             connection.Execute(sql);
         }
     }
