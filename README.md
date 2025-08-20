@@ -2,6 +2,8 @@ CRUD app to track runs by date/time and distance.
 
 Uses Spectre.Console for user interface and data visualization + SQLite and Dapper for DB access
 
+[.zip](https://github.com/bheston1/RunTracker/releases/download/v1.0.0/RunTracker_v1.0.0.zip) --> Extract wherever, then run. Database file is created in your AppData folder
+
 Menu</br>
 <img width="371" height="158" alt="{5B34CD00-39C3-446A-9AB8-501F28DD1F3F}" src="https://github.com/user-attachments/assets/ffcc4b8a-4c14-4af3-bfc2-b8d960164124" />
 
