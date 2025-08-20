@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Spectre.Console;
+﻿using Spectre.Console;
 
 namespace RunTracker
 {
@@ -12,18 +7,20 @@ namespace RunTracker
         public static void DrawTable(List<RunSession> runSessions)
         {
             var dateTimeFormat = "M/d/yyyy h:m tt";
+            var index = 1;
 
             var table = new Table();
 
-            table.AddColumn("Id");
-            table.AddColumn("Date");
+            table.AddColumn("#");
+            table.AddColumn("Session Id");
             table.AddColumn("Start time");
             table.AddColumn("End time");
             table.AddColumn("Distance (mi)");
 
             foreach (var session in runSessions)
             {
-                table.AddRow(session.Id.ToString(), session.StartTime.ToString(dateTimeFormat), session.EndTime.ToString(dateTimeFormat), $"{session.Miles} miles");
+                table.AddRow(index.ToString(), session.Id.ToString(), session.StartTime.ToString(dateTimeFormat), session.EndTime.ToString(dateTimeFormat), $"{session.Miles} miles");
+                index++;
             }
 
             AnsiConsole.Write(table);

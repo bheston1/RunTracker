@@ -1,9 +1,4 @@
 ﻿using Spectre.Console;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RunTracker
 {
@@ -52,8 +47,8 @@ namespace RunTracker
 
         private static void AddRecord()
         {
-            var start = UserInput.GetDateTime("Enter session start date/time (format: [m/d/yyyy h:mm am/pm]): ");
-            var end = UserInput.GetDateTime("Enter session end date/time (format: [m/d/yyyy h:mm am/pm]): ");
+            var start = UserInput.GetDateTime("Enter session start date/time (format: m/d/yyyy h:mm am/pm): ");
+            var end = UserInput.GetDateTime("Enter session end date/time (format: m/d/yyyy h:mm am/pm): ");
             var miles = AnsiConsole.Ask<double>("Distance (in miles): ");
             RunController.AddSession(start, end, miles);
             AnsiConsole.Markup("\n[green]Record added[/]\nPress [blue]<enter>[/]");
@@ -95,7 +90,28 @@ namespace RunTracker
 
         private static void UpdateRecord()
         {
+            int input;
 
+            while (true)
+            {
+                input = AnsiConsole.Ask<int>("Enter Id of record to update: ");
+
+                if (!RunController.SessionExists(input))
+                {
+                    AnsiConsole.Markup($"\n[yellow]Record #{input} does not exist[/]\n");
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            var start = UserInput.GetDateTime("Enter new start date/time (format: m/d/yyyy h:mm am/pm): ");
+            var end = UserInput.GetDateTime("Enter new end date/time (format: m/d/yyyy h:mm am/pm): ");
+            var miles = AnsiConsole.Ask<double>("New distance (in miles): ");
+            RunController.UpdateSession(input, start, end, miles);
+            AnsiConsole.Markup("\n[green]Record updated[/]\nPress [blue]<enter>[/]");
+            Console.ReadLine();
         }
 
         private static void DeleteRecord()

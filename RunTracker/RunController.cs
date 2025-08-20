@@ -1,10 +1,5 @@
 ﻿using Dapper;
 using Microsoft.Data.Sqlite;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RunTracker
 {
@@ -32,9 +27,13 @@ namespace RunTracker
             return runSessions;
         }
 
-        public static void UpdateSession(DateTime newDate, DateTime newStartTime, DateTime newEndTime, double newMiles)
+        public static void UpdateSession(int id, DateTime newStartTime, DateTime newEndTime, double newMiles)
         {
-
+            using (var connection = new SqliteConnection(Database.ConnectionString))
+            {
+                var sql = "UPDATE RunSessions SET (StartTime = @StartTime, EndTime = @EndTime, Miles = @Miles) WHERE Id = @Id";
+                connection.Execute(sql, new { Id = id, StartTime = newStartTime, EndTime = newEndTime, Miles = newMiles });
+            }
         }
 
         public static void DeleteSession(int id)
