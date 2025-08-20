@@ -6,7 +6,7 @@ namespace RunTracker
 {
     public static class Database
     {
-        public static string ConnectionString = ConfigurationManager.AppSettings.Get("SQLite Connection String");
+        public static string? ConnectionString { get; set; }
 
         public static void Initialize()
         {
