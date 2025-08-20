@@ -5,6 +5,7 @@
         static void Main(string[] args)
         {
             Database.Initialize();
+            Menu.MainMenu();
         }
     }
 }
