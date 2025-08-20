@@ -19,7 +19,7 @@ namespace RunTracker
 
                 if (!DateTime.TryParseExact(input, format, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out dateTime))
                 {
-                    AnsiConsole.Markup("[yellow]Invalid format[/]\n");
+                    AnsiConsole.Markup("\n[yellow]Invalid format[/]\n");
                 }
                 else
                 {
