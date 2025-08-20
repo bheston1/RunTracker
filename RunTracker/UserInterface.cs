@@ -53,8 +53,8 @@ namespace RunTracker
         private static void AddRecord()
         {
             var date = UserInput.GetDateTime("Enter session date (m/d/yyyy): ", "M/d/yyyy");
-            var start = UserInput.GetDateTime("Enter start time (h:m am/pm): ", "h:m tt");
-            var end = UserInput.GetDateTime("Enter end time (h:m am/pm): ", "h:m tt");
+            var start = UserInput.GetDateTime("Enter start time (h:mm am/pm): ", "h:m tt");
+            var end = UserInput.GetDateTime("Enter end time (h:mm am/pm): ", "h:m tt");
             var miles = AnsiConsole.Ask<double>("Distance (in miles): ");
             RunController.AddSession(date, start, end, miles);
             AnsiConsole.Markup("\n[green]Record added[/]\nPress [blue]<enter>[/]");

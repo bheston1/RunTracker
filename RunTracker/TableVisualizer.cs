@@ -12,7 +12,7 @@ namespace RunTracker
         public static void DrawTable(List<RunSession> runSessions)
         {
             var dateFormat = "M/d/yyyy";
-            var timeFormat = "h:m tt";
+            var timeFormat = "h:mm tt";
 
             var table = new Table();
 
@@ -24,7 +24,7 @@ namespace RunTracker
 
             foreach (var session in runSessions)
             {
-                table.AddRow(session.Id.ToString(), session.Date.ToString(dateFormat), session.StartTime.ToString(timeFormat), session.EndTime.ToString(timeFormat), session.Miles.ToString());
+                table.AddRow(session.Id.ToString(), session.Date.ToString(dateFormat), session.StartTime.ToString(timeFormat), session.EndTime.ToString(timeFormat), $"{session.Miles} miles");
             }
 
             AnsiConsole.Write(table);
