@@ -31,7 +31,7 @@ namespace RunTracker
         {
             using (var connection = new SqliteConnection(Database.ConnectionString))
             {
-                var sql = "UPDATE RunSessions SET (StartTime = @StartTime, EndTime = @EndTime, Miles = @Miles) WHERE Id = @Id";
+                var sql = "UPDATE RunSessions SET StartTime = @StartTime, EndTime = @EndTime, Miles = @Miles WHERE Id = @Id";
                 connection.Execute(sql, new { Id = id, StartTime = newStartTime, EndTime = newEndTime, Miles = newMiles });
             }
         }
