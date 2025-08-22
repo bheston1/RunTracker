@@ -10,6 +10,7 @@ namespace RunTracker
             var index = 1;
 
             var table = new Table();
+            table.ShowRowSeparators();
 
             table.AddColumn("#");
             table.AddColumn("Session Id");

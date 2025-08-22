@@ -9,8 +9,10 @@
             Directory.CreateDirectory(applicationFolder);
             string dbPath = Path.Combine(applicationFolder, "RunSessions.db");
             Database.ConnectionString = $"Data Source={dbPath}";
-            Database.Initialize();
-            UserInterface.MainMenu();
+            
+            var repository = new RunRepository(Database.ConnectionString);
+            var ui = new UserInterface(repository);
+            ui.MainMenu();
         }
     }
 }

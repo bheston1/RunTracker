@@ -3,9 +3,16 @@ using Microsoft.Data.Sqlite;
 
 namespace RunTracker
 {
-    public static class RunController
+    public class RunRepository
     {
-        public static void AddSession(DateTime startTime, DateTime endTime, double miles)
+        private readonly string _connectionString;
+
+        public RunRepository(string connectionString)
+        {
+            _connectionString = connectionString;
+        }
+
+        public void AddSession(DateTime startTime, DateTime endTime, double miles)
         {
             using (var connection = new SqliteConnection(Database.ConnectionString))
             {
@@ -14,7 +21,7 @@ namespace RunTracker
             }
         }
 
-        public static List<RunSession> GetSessions()
+        public List<RunSession> GetSessions()
         {
             var runSessions = new List<RunSession>();
 
@@ -27,7 +34,7 @@ namespace RunTracker
             return runSessions;
         }
 
-        public static void UpdateSession(int id, DateTime newStartTime, DateTime newEndTime, double newMiles)
+        public void UpdateSession(int id, DateTime newStartTime, DateTime newEndTime, double newMiles)
         {
             using (var connection = new SqliteConnection(Database.ConnectionString))
             {
@@ -36,7 +43,7 @@ namespace RunTracker
             }
         }
 
-        public static void DeleteSession(int id)
+        public void DeleteSession(int id)
         {
             using (var connection = new SqliteConnection(Database.ConnectionString))
             {
@@ -45,7 +52,7 @@ namespace RunTracker
             }
         }
 
-        public static bool SessionExists(int id)
+        public bool SessionExists(int id)
         {
             bool exists;
 

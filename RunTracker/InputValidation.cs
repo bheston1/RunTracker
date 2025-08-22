@@ -2,7 +2,7 @@
 
 namespace RunTracker
 {
-    public static class UserInput
+    public static class InputValidation
     {
         public static DateTime GetDateTime(string prompt)
         {
@@ -24,6 +24,27 @@ namespace RunTracker
             }
 
             return dateTime;
+        }
+
+        public static double GetMiles(string prompt)
+        {
+            double miles;
+
+            while (true)
+            {
+                miles = AnsiConsole.Ask<double>(prompt);
+
+                if (miles <= 0)
+                {
+                    AnsiConsole.Markup("\n[yellow]Miles must be above 0[/]\n");
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            return miles;
         }
     }
 }

@@ -2,9 +2,16 @@
 
 namespace RunTracker
 {
-    public static class UserInterface
+    public class UserInterface
     {
-        public static void MainMenu()
+        private readonly RunRepository _repository;
+
+        public UserInterface(RunRepository repository)
+        {
+            _repository = repository;
+        }
+
+        public void MainMenu()
         {
             string[] choices =
             {
@@ -45,19 +52,34 @@ namespace RunTracker
             }
         }
 
-        private static void AddRecord()
+        private void AddRecord()
         {
-            var start = UserInput.GetDateTime("Enter session start date/time (format: m/d/yyyy h:mm am/pm): ");
-            var end = UserInput.GetDateTime("Enter session end date/time (format: m/d/yyyy h:mm am/pm): ");
-            var miles = AnsiConsole.Ask<double>("Distance (in miles): ");
-            RunController.AddSession(start, end, miles);
+            DateTime start, end;
+
+            while (true)
+            {
+                start = InputValidation.GetDateTime("Enter session start date/time (format: m/d/yyyy h:mm am/pm): ");
+                end = InputValidation.GetDateTime("Enter session end date/time (format: m/d/yyyy h:mm am/pm): ");
+
+                if (end <= start)
+                {
+                    AnsiConsole.Markup("\n[yellow]Start time must be before end time[/]\n");
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            var miles = InputValidation.GetMiles("Enter distance (in miles): ");
+            _repository.AddSession(start, end, miles);
             AnsiConsole.Markup("\n[green]Record added[/]\nPress [blue]<enter>[/]");
             Console.ReadLine();
         }
 
-        private static void ViewRecords(bool update, bool delete)
+        private void ViewRecords(bool update, bool delete)
         {
-            var runSessions = RunController.GetSessions();
+            var runSessions = _repository.GetSessions();
 
             if (!runSessions.Any())
             {
@@ -88,7 +110,7 @@ namespace RunTracker
             }
         }
 
-        private static void UpdateRecord()
+        private void UpdateRecord()
         {
             int input;
 
@@ -96,7 +118,7 @@ namespace RunTracker
             {
                 input = AnsiConsole.Ask<int>("Enter Id of record to update: ");
 
-                if (!RunController.SessionExists(input))
+                if (!_repository.SessionExists(input))
                 {
                     AnsiConsole.Markup($"\n[yellow]Record #{input} does not exist[/]\n");
                 }
@@ -106,15 +128,30 @@ namespace RunTracker
                 }
             }
 
-            var start = UserInput.GetDateTime("Enter new start date/time (format: m/d/yyyy h:mm am/pm): ");
-            var end = UserInput.GetDateTime("Enter new end date/time (format: m/d/yyyy h:mm am/pm): ");
-            var miles = AnsiConsole.Ask<double>("New distance (in miles): ");
-            RunController.UpdateSession(input, start, end, miles);
+            DateTime start, end;
+
+            while (true)
+            {
+                start = InputValidation.GetDateTime("Enter new start date/time (format: m/d/yyyy h:mm am/pm): ");
+                end = InputValidation.GetDateTime("Enter new end date/time (format: m/d/yyyy h:mm am/pm): ");
+
+                if (end <= start)
+                {
+                    AnsiConsole.Markup("\n[yellow]Start time must be before end time[/]\n");
+                }
+                else
+                {
+                    break;
+                }
+            }
+            
+            var miles = InputValidation.GetMiles("New distance (in miles): ");
+            _repository.UpdateSession(input, start, end, miles);
             AnsiConsole.Markup("\n[green]Record updated[/]\nPress [blue]<enter>[/]");
             Console.ReadLine();
         }
 
-        private static void DeleteRecord()
+        private void DeleteRecord()
         {
             int input;
 
@@ -122,7 +159,7 @@ namespace RunTracker
             {
                 input = AnsiConsole.Ask<int>("Enter Id of record to delete: ");
 
-                if (!RunController.SessionExists(input))
+                if (!_repository.SessionExists(input))
                 {
                     AnsiConsole.Markup($"\n[yellow]Record #{input} does not exist[/]\n");
                 }
@@ -132,7 +169,7 @@ namespace RunTracker
                 }
             }
 
-            RunController.DeleteSession(input);
+            _repository.DeleteSession(input);
             AnsiConsole.Markup($"\n[red]Record #{input} deleted[/]\nPress [blue]<enter>[/]");
             Console.ReadLine();
         }
